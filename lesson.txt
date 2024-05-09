@@ -1,0 +1,219 @@
+controller - send receive req/response objects 
+
+create controller.php in src Controller folder.
+
+add namespace App\Controller;
+
+
+OR
+
+open console :
+php bin/console make:controller 
+
+add controller name example: namespace App\Controller; 
+
+
+open controller: 
+
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Attribute\Route;
+
+
+
+
+
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+
+use Symfony\Component\Routing\Attribute\Route;
+
+class MainController extends AbstractController
+{
+    #[Route('/main', name: 'main')]
+    public function index()
+    {
+        return $this->render('main/index.html.twig', [
+            'controller_name' => 'MainController',
+        ]);
+    }
+}
+
+
+in main/templates/index.html.twig: 
+
+template: 
+{%extends 'base.html.twig' %}
+
+{% block title %}Welcome!{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Hello {{ controller_name}} </h1>
+
+</div>
+{% endblock %}
+
+
+
+
+
+navigate to: 
+
+http://localhost/symfony/public/index.php/main
+
+
+define routes: 3 ways
+
+routes.yaml
+main:
+    path: /main
+    controller: 'App\Controller\MainController::index' 
+
+start:
+    path: /start/{name}
+    controller: 'App\Controller\MainController::start'
+    defaults:
+        name: 'Guest'
+
+
+        Controller:
+
+        <?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+
+class MainController extends AbstractController
+{
+    /**
+     * @Route("/main", name="main")
+     */
+    public function index()
+    {
+        return $this->render('main/index.html.twig', [
+            'controller_name' => 'MainController',
+        ]);
+    }
+
+    /**
+     * @Route("/start", name="start")
+     */
+    public function start(Request $request, $name){
+        $nr= random_int(0, 100);
+        return new Response('<h1>Welcome '. $name . ' your number is '. $nr .'</h1>');
+    }
+}
+
+CONTROLLER: PHP
+TWIG: html code 
+
+TWIG: 
+placeholders defined in {% %}
+don't repeat code twice.
+{%extends 'base.html.twig %} extends code from base template.
+
+
+
+create new controller with make.
+
+controller file:
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class ViewController extends AbstractController
+{
+   /**
+     * @Route("/view", name="view")
+     */
+    public function index()
+    {
+        $tag = date('l');
+       $user= ['name' => 'user1', 'email' => 'user@gmail.com', 'age' => 20];
+
+
+        return $this->render('view/index.html.twig', [
+            'd' => $tag,
+            'user' => $user,
+        ]);
+    }
+}
+
+
+in temp file :
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1> Hello {{ d }} </h1>
+    <ul>
+        {% for key, value in user %}
+            <li>{{ key }}: {{ value }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+
+install doctrine:
+composer require doctrine
+
+
+check doctrine in config 
+navigate to config - packages - doctrine
+
+go to .env
+uncomment DB url add username pwd and app name :
+ DATABASE_URL="mysql://admin:pw@127.0.0.1:3306/symfony?serverVersion=10.11.2-MariaDB&charset=utf8mb4"
+
+create db: 
+php bin/console doctrine:database:create
+
+go to localhost/adminer
+
+login in db
+
+click on SQL command
+
+GRANT ALL PRIVILEGES ON *.* TO admin@127.0.0.1 IDENTIFIED by "pw" WITH GRANT OPTION 
+
+
+
+run: 
+ mysql -u admin -p 
+
+Show databases;
+
+
+Entity: 
+go to entity folder  
+create php file or 
+console and run:
+
+php bin/console make:entity
+name example: Article
+
+properties: title, text, 255

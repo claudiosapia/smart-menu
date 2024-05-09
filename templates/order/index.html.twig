@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OrderController!{% endblock %}
+
+{% block body %}
+{%set total = 0 %}
+<br>
+<div class="container">
+<h2>Your Order</h2>
+<br>
+
+<table class="table table-striped"> 
+<thead>
+<tr>
+<td>Order No.</td>
+<td>Name </td>
+<td>Price</td>
+<td>Status</td>
+<td>Cancel Order</td>
+
+</tr>
+</thead>
+<tbody>
+{% for order in orders %}
+{% set total = total + order.price %}
+<tr>
+<td>{{ order.ordernumber }}</td>
+<td>{{ order.name }}</td>
+<td>{{ order.price }}</td>
+<td>{{ order.status }}</td>
+
+<td><td>
+<div class="dropdown show">
+  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   {{order.status}}
+  </a>
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item" href="{{path('status',{id: order.id, status: 'open'}) }}">Open</a>
+    <a class="dropdown-item" href="{{path('status',{id: order.id, status: 'pending'}) }}">Pending</a>
+    <a class="dropdown-item" href="{{path('status',{id: order.id, status: 'archived'}) }}">Archived</a>
+  </div>
+</div>
+</td>
+<td><a class="btn btn-outline-danger" href="{{ path('cancel',{id: order.id}) }}" role="button">Cancel</a></td>
+
+</div></td>
+</tr>
+
+{% endfor %}
+<td></td><td></td>
+<td>Total: {{ total }}</td>
+<td></td> <td></td>
+</tbody>
+</table>
+
+{% endblock %}

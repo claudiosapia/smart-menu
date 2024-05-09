@@ -1,0 +1,22 @@
+{%apply inline_css %}
+{# {%apply inline_css(source('@css/email.css')) %} #}
+
+<style> 
+ 
+    h3{
+        color: #12b33d;
+    
+    }
+  
+</style>
+<h1> Hello </h1>
+
+<h3> 
+The Dish {{dish}} has been ordered. </h3>
+
+<p>
+
+{{text}}
+
+  {% endapply %}
+</p>

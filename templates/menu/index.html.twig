@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MenuController!{% endblock %}
+
+{% block body %}
+{% for message in app.flashes('order') %}
+<div class="alert alert-success" role="alert">
+    <h3>{{ message }}</h3>
+</div>
+{% endfor %}
+
+ 
+<!-- Playlist section -->
+	<section class="playlist-section spad">
+		<div class="container-fluid">
+			<div class="section-title">
+				<h2>Menu Cart</h2>
+			</div>
+			<div class="container">
+				<ul class="playlist-filter controls">
+					<li class="control" data-filter=".Drinks">Drinks</li>
+					<li class="control" data-filter=".Mains">Main</li>
+					<li class="control" data-filter=".Desserts">Desserts</li>
+					<li class="control" data-filter=".Starters">Starters</li>
+					<li class="control" data-filter="all">All</li>
+				</ul>
+			</div>                                              
+			<div class="clearfix"></div>
+			<div class="row playlist-area">
+          {% for ds in dish %}
+    <div class="mix col-lg-3 col-md-4 col-sm-6 {% if ds.category == 'Drink' %}Drinks{% elseif ds.category == 'Main' %}Mains{% elseif ds.category == 'Dessert' %}Desserts{% elseif ds.category == 'Starter' %}Starters{% endif %}">
+        <div class="playlist-item">
+            <img src="{{ asset('images/' ~ ds.image) }}" alt="">
+            <h5>{{ ds.description }}</h5>
+            <a class="btn btn-outline-danger" href="{{ path('single_order', {'id': ds.id}) }}" role="button">Order</a>
+        </div>
+    </div>
+{% endfor %}
+				</div>
+			</div>
+		
+	</section>
+	<!-- Playlist section end -->
+{% endblock %}
